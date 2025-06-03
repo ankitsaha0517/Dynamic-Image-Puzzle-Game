@@ -1,14 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./style.css">
 </head>
-<body>
-    
 
-    <script src="./app.js"></script>
+<body>
+    <div id="main">
+        <h1>Dynamic Image Puzzle Game</h1>
+        <div class="game-box">
+            <section class="puzzle-game">
+                <div class="game-top">
+                    <div class="">Moves: <span id="moveCount">0</span>
+                          EASY
+                    </div>
+                </div>
+                <div id="puzzle-container">
+                    
+                </div>
+            </section>
+            <section class="user-input">
+                <div class="input-group">
+                    <input type="text" id="imageUrl" placeholder="Enter image URL" />
+                    <button id="loadImageBtn">Load Image</button>
+                </div>
+
+               
+
+                    <div class="difficulty">
+                        <button class="easy">EASY</button>
+                        <button class="medium">MEDIUM</button>
+                        <button class="hard">HARD</button>
+                    </div>
+
+
+                    <button id="startBtn">Start Puzzle</button>
+                    <button id="resetBtn">Reset Puzzle</button>
+            </section>
+        </div>
+        <script src="./app.js"></script>
 </body>
+
 </html>
