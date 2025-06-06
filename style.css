@@ -1,7 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 @font-face {
   font-family: "Gilroy";
   src: url("./Gilroy-Bold.ttf");
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -16,6 +18,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 10px;
+  background-color: #a3abb5;
 }
 #main {
   width: 100%;
@@ -25,15 +28,20 @@ body {
   font-size: 1.5vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+}
+#main h1 {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 .game-box {
   width: 100%;
   height: 85%;
-  padding: 15px;
+  padding: 25px 15px;
   border-radius: 15px;
-  background-image: url(./img/2.jpg);
+  background-image: url(./img/download.jpeg);
   background-size: cover;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
@@ -41,10 +49,10 @@ body {
   color: white;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .puzzle-game {
-  width: 45%;
+  width: 36%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -55,10 +63,12 @@ body {
   width: 100%;
   height: 92%;
   background-color: #000;
+  box-shadow: rgba(253, 253, 253, 0.24) 0px 3px 8px;
+  border-radius: 10px;
 }
 
 .user-input {
-  width: 30%;
+  width: 25%;
   padding: 35px;
   border-radius: 15px;
   display: flex;
@@ -66,8 +76,9 @@ body {
   justify-content: center;
   align-items: center;
   gap: 15px;
-  background: #3c494f;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  /* background: ;/ */
+  backdrop-filter: blur(15px);
+  box-shadow: rgba(255, 255, 255, 0.753) 0px 3px 8px;
 }
 .user-input .input-group {
   width: 100%;
@@ -77,21 +88,24 @@ body {
   border-radius: 15px;
   border: none;
   outline: none;
-  padding: 8px 15px;
-  font-size: 1.2vw;
+  padding: 12px 15px;
+  font-size: 0.9vw;
+  font-family: "Press Start 2P", system-ui;
 }
 
 .user-input .input-group button {
-  padding: 8px 15px;
-  font-size: 1.2vw;
+  padding: 12px 15px;
+  font-size: 0.9vw;
   border-radius: 15px;
   border: none;
   outline: none;
-  background: #272f33;
+  background: #a3a0a0;
   color: white;
   cursor: pointer;
   width: 100%;
   margin-top: 15px;
+  font-family: "Press Start 2P", system-ui;
+
 }
 .difficulty {
   width: 100%;
@@ -100,33 +114,61 @@ body {
   align-items: center;
 }
 .difficulty button {
-  padding: 8px 20px;
-  font-size: 1.2vw;
+  padding: 8px 18px;
+  font-size: 1.1vw;
   border-radius: 15px;
   border: none;
   outline: none;
-  color: white;
   cursor: pointer;
-}
-.easy {
-  background: #0f6407;
-}
-.medium {
-  background: #97890d;
-}
-.hard {
-  background: #640707;
+  transition: all 0.3s ease;
 }
 #startBtn,
 #resetBtn {
   width: 100%;
   padding: 10px 20px;
-  font-size: 1.2vw;
+  font-size: 0.9vw;
   border-radius: 15px;
   border: none;
   outline: none;
   color: white;
   cursor: pointer;
-  background: #26353C;
   letter-spacing: 1.5px;
+  transition: filter 0.3s ease;
+  font-family: "Press Start 2P", system-ui;
+}
+#startBtn {
+  background: #F0007C;
+}
+#resetBtn {
+  background: #2292FB;
+}
+#startBtn:hover,
+#resetBtn:hover,
+button:hover {
+  filter: brightness(0.9);
+}
+.difficulty button:hover {
+  transform: scale(0.95);
+}
+
+.easy:hover {
+  background: #4CAF50;
+}
+
+.medium:hover {
+  background: #ffe600;
+}
+
+.hard:hover {
+  background: #f12c2c;
+}
+
+.game-top {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+#difficulty-level {
+  text-transform: uppercase;
 }

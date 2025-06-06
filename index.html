@@ -14,31 +14,36 @@
         <div class="game-box">
             <section class="puzzle-game">
                 <div class="game-top">
-                    <div class="">Moves: <span id="moveCount">0</span>
-                          EASY
+                    <div class="">Moves: &nbsp;<span id="moveCount"> 0</span>
                     </div>
+                    <div class="timer">
+                        <span>Time: </span>
+                        <span id="timer">00:00</span>
+                    </div>
+
+                    <span id="difficulty-level">Easy</span>
                 </div>
                 <div id="puzzle-container">
-                    
+
                 </div>
             </section>
             <section class="user-input">
                 <div class="input-group">
-                    <input type="text" id="imageUrl" placeholder="Enter image URL" />
+                    <input type="text" id="imageUrl" placeholder="Enter Image URL" />
                     <button id="loadImageBtn">Load Image</button>
                 </div>
 
-               
-
-                    <div class="difficulty">
-                        <button class="easy">EASY</button>
-                        <button class="medium">MEDIUM</button>
-                        <button class="hard">HARD</button>
-                    </div>
 
 
-                    <button id="startBtn">Start Puzzle</button>
-                    <button id="resetBtn">Reset Puzzle</button>
+                <div class="difficulty">
+                    <button class="easy">EASY</button>
+                    <button class="medium">MEDIUM</button>
+                    <button class="hard">HARD</button>
+                </div>
+
+
+                <button id="startBtn">Start Puzzle</button>
+                <button id="resetBtn">Reset Puzzle</button>
             </section>
         </div>
         <script src="./app.js"></script>
