@@ -63,8 +63,13 @@ body {
   width: 100%;
   height: 92%;
   background-color: #000;
-  box-shadow: rgba(253, 253, 253, 0.24) 0px 3px 8px;
+  /* box-shadow: rgba(253, 253, 253, 0.24) 0px 3px 8px; */
   border-radius: 10px;
+  display: grid;
+  gap: 5px;
+  justify-content: center;
+  align-content: center;
+  overflow: hidden;
 }
 
 .user-input {
@@ -105,7 +110,6 @@ body {
   width: 100%;
   margin-top: 15px;
   font-family: "Press Start 2P", system-ui;
-
 }
 .difficulty {
   width: 100%;
@@ -137,22 +141,22 @@ body {
   font-family: "Press Start 2P", system-ui;
 }
 #startBtn {
-  background: #F0007C;
+  background: #f0007c;
 }
 #resetBtn {
-  background: #2292FB;
+  background: #2292fb;
 }
 #startBtn:hover,
 #resetBtn:hover,
 button:hover {
-  filter: brightness(0.9);
+  filter: brightness(0.7);
 }
 .difficulty button:hover {
   transform: scale(0.95);
 }
 
 .easy:hover {
-  background: #4CAF50;
+  background: #4caf50;
 }
 
 .medium:hover {
@@ -160,6 +164,24 @@ button:hover {
 }
 
 .hard:hover {
+  background: #f12c2c;
+}
+.difficulty button.active {
+  transform: scale(0.97);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
+
+.difficulty button.easy.active {
+  background: #4caf50;
+}
+
+.difficulty button.medium.active {
+  background: #ffe600;
+  color: #000;
+}
+
+.difficulty button.hard.active {
   background: #f12c2c;
 }
 
