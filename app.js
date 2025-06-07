@@ -4,6 +4,8 @@ const moveCountDisplay = document.getElementById("moveCount");
 const buttons = document.querySelectorAll(".difficulty button");
 const reset = document.getElementById("resetBtn");
 const difficultyLevel = document.getElementById("difficulty-level");
+let loadImgBtn = document.getElementById("loadImageBtn");
+let newImgURI = document.getElementById("imageUrl");
 
 let imageUrl =
   "https://i.pinimg.com/736x/39/86/91/398691f123726a5763e9c47980964fff.jpg";
@@ -37,6 +39,7 @@ function createTiles(imageWidth, imageHeight) {
         row * tileHeight
       }vw`;
       tile.dataset.originalIndex = index;
+      tile.style.cursor = "grab";
       tiles.push(tile);
     }
   }
@@ -65,6 +68,7 @@ function addDragListeners(tile) {
         setTimeout(() => {
           alert("🎉 Congratulations! Puzzle Solved!");
         }, 100);
+        play();
       }
     }
   });
@@ -91,16 +95,17 @@ function isPuzzleSolved() {
 }
 
 // Start button event listener
-startBtn.addEventListener("click", () => {
-  shuffle(tiles);
-  tiles.forEach(addDragListeners);
-  renderTiles();
-  moveCount = 0;
-  moveCountDisplay.textContent = moveCount;
-});
-
-
-
+function startGame() {
+  startBtn.addEventListener("click", () => {
+    shuffle(tiles);
+    tiles.forEach(addDragListeners);
+    renderTiles();
+    moveCount = 0;
+    moveCountDisplay.textContent = moveCount;
+    push();
+  });
+}
+startGame();
 // Load the image and create tiles
 const img = new Image();
 img.src = imageUrl;
@@ -143,29 +148,58 @@ function resetGame() {
     buttons.forEach((button) => {
       buttons.forEach((btn) => btn.classList.remove("active"));
     });
+    gridSize=4
+    buttons[0].classList.add("active")
     createTiles(32, 32);
     renderTiles();
 
     moveCount = 0;
     moveCountDisplay.textContent = moveCount;
+    play();
   });
 }
 
 function loadImg() {
-  let loadImgBtn = document.getElementById("loadImageBtn");
-  let newImgURI = document.getElementById("imageUrl");
   loadImgBtn.addEventListener("click", () => {
     imageUrl = newImgURI.value;
+    if(!imageUrl){
+      return
+    }
     const img = new Image();
     img.src = imageUrl;
     img.onload = () => {
       createTiles(32, 32);
       renderTiles();
-      
+
       moveCount = 0;
       moveCountDisplay.textContent = moveCount;
-      newImgURI.value = ""
+      newImgURI.value = "";
     };
+  });
+}
+
+function push() {
+  startBtn.classList.add("pushed");
+  loadImgBtn.classList.add("pushed");
+  newImgURI.style.pointerEvents = "none";
+  newImgURI.classList.add("pushed");
+
+  buttons.forEach((btn) => {
+    btn.style.pointerEvents = "none";
+    btn.classList.add("pushed");;
+  });
+}
+function play() {
+  startBtn.style.pointerEvents = "all";
+  loadImgBtn.style.pointerEvents = "all";
+  newImgURI.style.pointerEvents = "all";
+  startBtn.classList.remove("pushed");
+  loadImgBtn.classList.remove("pushed");
+  newImgURI.classList.remove("pushed");
+
+  buttons.forEach((btn) => {
+    btn.style.pointerEvents = "all";
+    btn.classList.remove("pushed");
   });
 }
 
