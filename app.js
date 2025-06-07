@@ -5,7 +5,7 @@ const buttons = document.querySelectorAll(".difficulty button");
 const reset = document.getElementById("resetBtn");
 const difficultyLevel = document.getElementById("difficulty-level");
 
-const imageUrl =
+let imageUrl =
   "https://i.pinimg.com/736x/39/86/91/398691f123726a5763e9c47980964fff.jpg";
 let gridSize = 4;
 
@@ -99,6 +99,8 @@ startBtn.addEventListener("click", () => {
   moveCountDisplay.textContent = moveCount;
 });
 
+
+
 // Load the image and create tiles
 const img = new Image();
 img.src = imageUrl;
@@ -107,7 +109,7 @@ img.onload = () => {
   renderTiles();
 };
 
-//diffculty btn 
+//diffculty btn
 function difficultyBtn() {
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -118,7 +120,6 @@ function difficultyBtn() {
         gridSize = 4;
         difficultyLevel.innerHTML = button.innerHTML;
         console.log(button.innerHTML);
-        
       } else if (button.innerHTML === "MEDIUM") {
         gridSize = 6;
         difficultyLevel.innerHTML = button.innerHTML;
@@ -150,6 +151,24 @@ function resetGame() {
   });
 }
 
+function loadImg() {
+  let loadImgBtn = document.getElementById("loadImageBtn");
+  let newImgURI = document.getElementById("imageUrl");
+  loadImgBtn.addEventListener("click", () => {
+    imageUrl = newImgURI.value;
+    const img = new Image();
+    img.src = imageUrl;
+    img.onload = () => {
+      createTiles(32, 32);
+      renderTiles();
+      
+      moveCount = 0;
+      moveCountDisplay.textContent = moveCount;
+      newImgURI.value = ""
+    };
+  });
+}
 
+loadImg();
 difficultyBtn();
 resetGame();
