@@ -79,12 +79,16 @@ function addDragListeners(tile) {
           messageBox.innerText = "🎉 Congratulation 🎉";
           messageBox.style.display = "flex";
         }, 1000);
+        let Overlay = document.getElementById("overlay");
+        Overlay.style.display = "block";
         userBox.style.filter = "brightness(0.5)";
         party();
         play();
         stopTimer();
         resetGame();
-        onTimeUp();
+        setTimeout(() => {
+          hideMesBox()
+        }, 6000);
       }
     }
   });
@@ -153,7 +157,7 @@ function difficultyBtn() {
         console.log(button.innerHTML);
       } else if (button.innerHTML === "MEDIUM") {
         gridSize = 6;
-        timeLimit = 120;
+        timeLimit = 180;
         difficultyLevel.innerHTML = button.innerHTML;
       } else {
         gridSize = 8;
@@ -270,6 +274,10 @@ function onTimeUp() {
   messageBox.innerText = "Time Up ⏰ Try again";
   messageBox.style.display = "flex";
   userBox.style.filter = "brightness(0.5)";
+
+  setTimeout(() => {
+    hideMesBox();
+  }, 3000);
 }
 
 function restartTimer() {
@@ -277,11 +285,6 @@ function restartTimer() {
   timeRemaining = 0;
   updateTimerDisplay(); // Show 00:00
 }
-
-loadImg();
-difficultyBtn();
-resetGame();
-
 function party() {
   var count = 200;
   var defaults = {
@@ -373,3 +376,12 @@ function party() {
     }
   })();
 }
+
+function hideMesBox() {
+  messageBox.style.display = "none";
+  userBox.style.filter = "brightness(1)";
+}
+
+loadImg();
+difficultyBtn();
+resetGame();
