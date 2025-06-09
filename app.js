@@ -7,6 +7,11 @@ const difficultyLevel = document.getElementById("difficulty-level");
 let loadImgBtn = document.getElementById("loadImageBtn");
 let newImgURI = document.getElementById("imageUrl");
 
+const timerDisplay = document.getElementById("timer");
+let timerInterval;
+let timeRemaining = 1;
+let timeLimit = 60;
+
 let imageUrl =
   "https://i.pinimg.com/736x/39/86/91/398691f123726a5763e9c47980964fff.jpg";
 let gridSize = 4;
@@ -69,6 +74,7 @@ function addDragListeners(tile) {
           alert("🎉 Congratulations! Puzzle Solved!");
         }, 100);
         play();
+        stopTimer();
       }
     }
   });
@@ -103,6 +109,7 @@ function startGame() {
     moveCount = 0;
     moveCountDisplay.textContent = moveCount;
     push();
+    startTimer(timeLimit);
   });
 }
 startGame();
@@ -123,13 +130,17 @@ function difficultyBtn() {
 
       if (button.innerHTML === "EASY") {
         gridSize = 4;
+
+        timeLimit = 60; // 1 min
         difficultyLevel.innerHTML = button.innerHTML;
         console.log(button.innerHTML);
       } else if (button.innerHTML === "MEDIUM") {
         gridSize = 6;
+        timeLimit = 120;
         difficultyLevel.innerHTML = button.innerHTML;
       } else {
         gridSize = 8;
+        timeLimit = 180;
         difficultyLevel.innerHTML = button.innerHTML;
       }
 
@@ -145,32 +156,32 @@ function difficultyBtn() {
 //reset game
 function resetGame() {
   reset.addEventListener("click", () => {
-    buttons.forEach((button) => {
-      buttons.forEach((btn) => btn.classList.remove("active"));
-    });
-    gridSize=4
-    buttons[0].classList.add("active")
+    // buttons.forEach((button) => {
+    buttons.forEach((btn) => btn.classList.remove("active"));
+    // });
+    gridSize = 4;
+    buttons[0].classList.add("active");
     createTiles(32, 32);
     renderTiles();
 
     moveCount = 0;
     moveCountDisplay.textContent = moveCount;
     play();
+    restartTimer()
   });
 }
 
 function loadImg() {
   loadImgBtn.addEventListener("click", () => {
     imageUrl = newImgURI.value;
-    if(!imageUrl){
-      return
+    if (!imageUrl) {
+      return;
     }
     const img = new Image();
     img.src = imageUrl;
     img.onload = () => {
       createTiles(32, 32);
       renderTiles();
-
       moveCount = 0;
       moveCountDisplay.textContent = moveCount;
       newImgURI.value = "";
@@ -186,7 +197,7 @@ function push() {
 
   buttons.forEach((btn) => {
     btn.style.pointerEvents = "none";
-    btn.classList.add("pushed");;
+    btn.classList.add("pushed");
   });
 }
 function play() {
@@ -203,6 +214,44 @@ function play() {
   });
 }
 
+function startTimer(limitInSeconds) {
+  clearInterval(timerInterval);
+  timeRemaining = limitInSeconds;
+  updateTimerDisplay();
+
+  timerInterval = setInterval(() => {
+    timeRemaining--;
+    updateTimerDisplay();
+
+    if (timeRemaining <= 0) {
+      onTimeUp();
+      clearInterval(timerInterval);
+    }
+  }, 1000);
+
+  if (timeRemaining <= 0) {
+  }
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+}
+
+function updateTimerDisplay() {
+  const minutes = String(Math.floor(timeRemaining / 60)).padStart(2, "0");
+  const seconds = String(timeRemaining % 60).padStart(2, "0");
+  timerDisplay.textContent = `${minutes}:${seconds}`;
+}
+
+function onTimeUp() {
+  let Overlay = document.getElementById("overlay");
+  Overlay.style.display = "block";
+}
+function restartTimer() {
+  stopTimer(); // Stop the countdown if it's running
+  timeRemaining = 0;
+  updateTimerDisplay(); // Show 00:00
+}
 loadImg();
 difficultyBtn();
 resetGame();
