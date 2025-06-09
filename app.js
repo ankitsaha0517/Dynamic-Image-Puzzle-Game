@@ -3,11 +3,16 @@ const startBtn = document.getElementById("startBtn");
 const moveCountDisplay = document.getElementById("moveCount");
 const buttons = document.querySelectorAll(".difficulty button");
 const reset = document.getElementById("resetBtn");
+reset.disabled = true;
+reset.classList.add("pushed");
 const difficultyLevel = document.getElementById("difficulty-level");
 let loadImgBtn = document.getElementById("loadImageBtn");
 let newImgURI = document.getElementById("imageUrl");
-
 const timerDisplay = document.getElementById("timer");
+
+const messageBox = document.getElementById("message");
+const userBox = document.querySelector(".user-input");
+
 let timerInterval;
 let timeRemaining = 1;
 let timeLimit = 60;
@@ -71,10 +76,15 @@ function addDragListeners(tile) {
 
       if (isPuzzleSolved()) {
         setTimeout(() => {
-          alert("🎉 Congratulations! Puzzle Solved!");
-        }, 100);
+          messageBox.innerText = "🎉 Congratulation 🎉";
+          messageBox.style.display = "flex";
+        }, 1000);
+        userBox.style.filter = "brightness(0.5)";
+        party();
         play();
         stopTimer();
+        resetGame();
+        onTimeUp();
       }
     }
   });
@@ -103,6 +113,12 @@ function isPuzzleSolved() {
 // Start button event listener
 function startGame() {
   startBtn.addEventListener("click", () => {
+    let Overlay = document.getElementById("overlay");
+    Overlay.style.display = "none";
+    reset.disabled = false;
+    reset.classList.remove("pushed");
+    createTiles(32, 32);
+    renderTiles();
     shuffle(tiles);
     tiles.forEach(addDragListeners);
     renderTiles();
@@ -110,6 +126,7 @@ function startGame() {
     moveCountDisplay.textContent = moveCount;
     push();
     startTimer(timeLimit);
+    userBox.style.filter = "brightness(1)";
   });
 }
 startGame();
@@ -156,18 +173,20 @@ function difficultyBtn() {
 //reset game
 function resetGame() {
   reset.addEventListener("click", () => {
-    // buttons.forEach((button) => {
+    let Overlay = document.getElementById("overlay");
     buttons.forEach((btn) => btn.classList.remove("active"));
-    // });
     gridSize = 4;
     buttons[0].classList.add("active");
     createTiles(32, 32);
     renderTiles();
-
     moveCount = 0;
     moveCountDisplay.textContent = moveCount;
     play();
-    restartTimer()
+    restartTimer();
+    Overlay.style.display = "none";
+    reset.disabled = true;
+    reset.classList.add("pushed");
+    userBox.style.filter = "brightness(1)";
   });
 }
 
@@ -191,7 +210,9 @@ function loadImg() {
 
 function push() {
   startBtn.classList.add("pushed");
+  startBtn.disabled = true;
   loadImgBtn.classList.add("pushed");
+  loadImgBtn.disabled = true;
   newImgURI.style.pointerEvents = "none";
   newImgURI.classList.add("pushed");
 
@@ -201,8 +222,8 @@ function push() {
   });
 }
 function play() {
-  startBtn.style.pointerEvents = "all";
-  loadImgBtn.style.pointerEvents = "all";
+  startBtn.disabled = false;
+  loadImgBtn.disabled = false;
   newImgURI.style.pointerEvents = "all";
   startBtn.classList.remove("pushed");
   loadImgBtn.classList.remove("pushed");
@@ -246,12 +267,109 @@ function updateTimerDisplay() {
 function onTimeUp() {
   let Overlay = document.getElementById("overlay");
   Overlay.style.display = "block";
+  messageBox.innerText = "Time Up ⏰ Try again";
+  messageBox.style.display = "flex";
+  userBox.style.filter = "brightness(0.5)";
 }
+
 function restartTimer() {
   stopTimer(); // Stop the countdown if it's running
   timeRemaining = 0;
   updateTimerDisplay(); // Show 00:00
 }
+
 loadImg();
 difficultyBtn();
 resetGame();
+
+function party() {
+  var count = 200;
+  var defaults = {
+    origin: { y: 0.7 },
+  };
+
+  function fire(particleRatio, opts) {
+    confetti({
+      ...defaults,
+      ...opts,
+      particleCount: Math.floor(count * particleRatio),
+    });
+  }
+
+  fire(0.25, {
+    spread: 26,
+    startVelocity: 55,
+  });
+  fire(0.2, {
+    spread: 60,
+  });
+  fire(0.35, {
+    spread: 100,
+    decay: 0.91,
+    scalar: 0.8,
+  });
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 25,
+    decay: 0.92,
+    scalar: 1.2,
+  });
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 45,
+  });
+  var duration = 3 * 1000;
+  var animationEnd = Date.now() + duration;
+  var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  var interval = setInterval(function () {
+    var timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+      return clearInterval(interval);
+    }
+
+    var particleCount = 50 * (timeLeft / duration);
+    // since particles fall down, start a bit higher than random
+    confetti({
+      ...defaults,
+      particleCount,
+      origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+    });
+    confetti({
+      ...defaults,
+      particleCount,
+      origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+    });
+  }, 250);
+
+  var end = Date.now() + 3 * 1000;
+
+  // go Buckeyes!
+  var colors = ["#bb0000", "#ffffff"];
+
+  (function frame() {
+    confetti({
+      particleCount: 2,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors: colors,
+    });
+    confetti({
+      particleCount: 2,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors: colors,
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
+}
