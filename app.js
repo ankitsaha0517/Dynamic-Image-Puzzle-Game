@@ -24,14 +24,14 @@ let gridSize = 4;
 let tiles = [];
 let moveCount = 0;
 let draggedTile = null;
-let tileWidth, tileHeight;
 
-function createTiles(imageWidth, imageHeight) {
-  tileWidth = Math.floor(imageWidth / gridSize);
-  tileHeight = Math.floor(imageHeight / gridSize);
 
-  container.style.gridTemplateColumns = `repeat(${gridSize}, ${tileWidth}vw)`;
-  container.style.gridTemplateRows = `repeat(${gridSize}, ${tileHeight}vw)`;
+
+//create tiles
+function createTiles() {
+
+  container.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+  container.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
 
   tiles = [];
 
@@ -41,15 +41,17 @@ function createTiles(imageWidth, imageHeight) {
       const tile = document.createElement("div");
       tile.className = "tile";
       tile.draggable = true;
-      tile.style.width = `${tileWidth}vw`;
-      tile.style.height = `${tileHeight}vw`;
+
+      tile.style.width = `100%`;
+      tile.style.height = `100%`;
+
       tile.style.backgroundImage = `url(${imageUrl})`;
-      tile.style.backgroundSize = `${imageWidth}vw ${imageHeight}vw`;
-      tile.style.backgroundPosition = `-${col * tileWidth}vw -${
-        row * tileHeight
-      }vw`;
+      tile.style.backgroundSize = `${gridSize * 100}% ${gridSize * 100}%`;
+      tile.style.backgroundPosition = `${(col * 100) / (gridSize - 1)}% ${(row * 100) / (gridSize - 1)}%`;
+
       tile.dataset.originalIndex = index;
       tile.style.cursor = "grab";
+
       tiles.push(tile);
     }
   }
@@ -121,7 +123,7 @@ function startGame() {
     Overlay.style.display = "none";
     reset.disabled = false;
     reset.classList.remove("pushed");
-    createTiles(32, 32);
+    createTiles();
     renderTiles();
     shuffle(tiles);
     tiles.forEach(addDragListeners);
@@ -138,7 +140,7 @@ startGame();
 const img = new Image();
 img.src = imageUrl;
 img.onload = () => {
-  createTiles(32, 32);
+  createTiles();
   renderTiles();
 };
 
@@ -157,7 +159,7 @@ function difficultyBtn() {
         console.log(button.innerHTML);
       } else if (button.innerHTML === "MEDIUM") {
         gridSize = 6;
-        timeLimit = 180;
+        timeLimit = 120;
         difficultyLevel.innerHTML = button.innerHTML;
       } else {
         gridSize = 8;
@@ -165,7 +167,7 @@ function difficultyBtn() {
         difficultyLevel.innerHTML = button.innerHTML;
       }
 
-      createTiles(32, 32);
+      createTiles();
       renderTiles();
 
       moveCount = 0;
@@ -181,7 +183,7 @@ function resetGame() {
     buttons.forEach((btn) => btn.classList.remove("active"));
     gridSize = 4;
     buttons[0].classList.add("active");
-    createTiles(32, 32);
+    createTiles();
     renderTiles();
     moveCount = 0;
     moveCountDisplay.textContent = moveCount;
@@ -203,7 +205,7 @@ function loadImg() {
     const img = new Image();
     img.src = imageUrl;
     img.onload = () => {
-      createTiles(32, 32);
+      createTiles();
       renderTiles();
       moveCount = 0;
       moveCountDisplay.textContent = moveCount;
